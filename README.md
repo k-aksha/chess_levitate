@@ -3,7 +3,6 @@
 A visually stunning, interactive 3D Chess game built with **Three.js** and **Vanilla JavaScript**. This project features a unique "Golden Hour" aesthetic, procedural materials, and a physics-inspired hand interaction model.
 
 ![Project Banner](Banner.png) 
-*(Note: Replace with an actual screenshot of your game)*
 
 ## ✨ Features
 
