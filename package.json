@@ -1,0 +1,20 @@
+{
+    "name": "Chess_Levitate",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "three": "^0.160.0",
+        "gsap": "^3.12.5",
+        "chess.js": "^1.0.0-beta.8",
+        "cannon-es": "^0.20.0"
+    },
+    "devDependencies": {
+        "vite": "^5.0.0"
+    }
+}

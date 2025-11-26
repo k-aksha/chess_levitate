@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&display=swap');
+
+:root {
+    font-family: 'Comic Neue', cursive;
+    line-height: 1.5;
+    font-weight: 700;
+    color-scheme: dark;
+    color: #ffffff;
+    background-color: #050510;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+    overflow: hidden;
+    /* Halftone pattern overlay effect could be added with a pseudo-element, keeping it simple for now */
+    background: radial-gradient(circle at center, #1a0b2e 0%, #000000 100%);
+}
+
+#app {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+#game-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#ui-container {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+    width: auto;
+}
+
+#game-status {
+    font-family: 'Bangers', system-ui;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: #00f3ff;
+    /* Cyan */
+    text-shadow:
+        3px 3px 0px #ff00ff,
+        /* Magenta shadow */
+        -1px -1px 0 #000;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 40px;
+    border: 4px solid #fff;
+    transform: skew(-5deg);
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+#game-tip {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    font-family: 'Comic Neue', cursive;
+    font-size: 13px;
+    /* Requested size */
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border: 2px solid #00f3ff;
+    border-radius: 5px;
+    pointer-events: none;
+    line-height: 1.4;
+    max-width: 200px;
+}
+
+#reset-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    border: 2px solid #000;
+    border-radius: 0;
+    padding: 0.5em 1em;
+    /* Reduced padding */
+    font-size: 1rem;
+    /* Reduced size */
+    font-family: 'Bangers', system-ui;
+    background: #ff0044;
+    /* Spidey Red */
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 3px 3px 0px #000;
+    transform: skew(-2deg);
+    pointer-events: auto;
+}
+
+#reset-btn:hover {
+    background: #00f3ff;
+    color: #000;
+    transform: skew(-2deg) translate(-2px, -2px);
+    box-shadow: 5px 5px 0px #000;
+}
+
+#reset-btn:active {
+    transform: skew(-2deg) translate(2px, 2px);
+    box-shadow: 1px 1px 0px #000;
+}
+
+#controls {
+    pointer-events: auto;
+}
+
+button {
+    border: 3px solid #000;
+    border-radius: 0;
+    padding: 0.8em 2em;
+    font-size: 1.5em;
+    font-family: 'Bangers', system-ui;
+    background: #ff0044;
+    /* Spidey Red */
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 5px 5px 0px #000;
+    transform: skew(-2deg);
+}
+
+button:hover {
+    background: #00f3ff;
+    color: #000;
+    transform: skew(-2deg) translate(-2px, -2px);
+    box-shadow: 7px 7px 0px #000;
+}
+
+button:active {
+    transform: skew(-2deg) translate(2px, 2px);
+    box-shadow: 3px 3px 0px #000;
+}
