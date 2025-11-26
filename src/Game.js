@@ -24,12 +24,26 @@ export class Game {
 
         this.selectedPiece = null;
         this.isMoving = false; // Lock interaction while hand is moving
+        this.promotionPending = null; // Store move details while waiting for promotion choice
 
         this.clock = new THREE.Clock();
+
+        this.promotionModal = document.getElementById('promotion-modal');
+        this.setupPromotionUI();
 
         this.initPieces();
         this.setupInteraction();
         this.render();
+    }
+
+    setupPromotionUI() {
+        const buttons = this.promotionModal.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const type = e.target.dataset.type;
+                this.handlePromotionChoice(type);
+            });
+        });
     }
 
     initPieces() {
@@ -255,10 +269,25 @@ export class Game {
         if (!sourceSquare) return;
 
         try {
+            // Check for promotion
+            const moveOptions = this.chess.moves({ verbose: true });
+            const promotionMove = moveOptions.find(m =>
+                m.from === sourceSquare &&
+                m.to === targetSquare &&
+                m.flags.includes('p')
+            );
+
+            if (promotionMove) {
+                // It's a promotion! Show modal
+                this.promotionPending = { from: sourceSquare, to: targetSquare };
+                this.promotionModal.classList.remove('hidden');
+                return;
+            }
+
             const move = this.chess.move({
                 from: sourceSquare,
                 to: targetSquare,
-                promotion: 'q' // always promote to queen for simplicity for now
+                promotion: 'q' // Default fallback
             });
 
             if (move) {
@@ -271,6 +300,29 @@ export class Game {
             }
         } catch (e) {
             console.log('Invalid move', e);
+        }
+    }
+
+    async handlePromotionChoice(promotionType) {
+        if (!this.promotionPending) return;
+
+        this.promotionModal.classList.add('hidden');
+
+        const move = this.chess.move({
+            from: this.promotionPending.from,
+            to: this.promotionPending.to,
+            promotion: promotionType
+        });
+
+        this.promotionPending = null;
+
+        if (move) {
+            this.isMoving = true;
+            this.board.resetHighlights();
+            await this.animateMove(move, this.selectedPiece);
+            this.isMoving = false;
+            this.selectedPiece = null;
+            this.updateGameStatus();
         }
     }
 
@@ -321,6 +373,20 @@ export class Game {
         // Update internal state
         this.pieces.delete(move.from);
         this.pieces.set(move.to, piece);
+
+        // Handle Promotion Visuals
+        if (move.flags.includes('p')) {
+            // Remove old pawn mesh
+            this.sceneManager.scene.remove(piece.mesh);
+
+            // Create new piece mesh
+            const newPiece = new Piece(move.promotion, move.color, this.sceneManager.scene);
+            const coords = this.getSquareCoords(move.to);
+            newPiece.setPosition(coords.x, coords.z);
+
+            // Update map
+            this.pieces.set(move.to, newPiece);
+        }
     }
 
     getWorldPosition(x, z) {
